@@ -6,13 +6,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import com.example.cj_project_ecom.ProductModel;
-import com.example.cj_project_ecom.ProductsAdapter;
+import com.example.cj_project_ecom.models.ProductModel;
+import com.example.cj_project_ecom.adapters.ProductsAdapter;
 import com.example.cj_project_ecom.R;
 
-import android.os.Bundle;
 import android.widget.GridView;
-import androidx.appcompat.app.AppCompatActivity;
+
 import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {

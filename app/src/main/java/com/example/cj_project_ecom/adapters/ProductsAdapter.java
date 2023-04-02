@@ -1,4 +1,4 @@
-package com.example.cj_project_ecom;
+package com.example.cj_project_ecom.adapters;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -9,6 +9,10 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.example.cj_project_ecom.models.ProductModel;
+import com.example.cj_project_ecom.R;
+
 import java.util.ArrayList;
 
 public class ProductsAdapter extends ArrayAdapter<ProductModel> {

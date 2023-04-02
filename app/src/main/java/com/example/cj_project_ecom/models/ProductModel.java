@@ -1,4 +1,4 @@
-package com.example.cj_project_ecom;
+package com.example.cj_project_ecom.models;
 
 public class ProductModel {
 

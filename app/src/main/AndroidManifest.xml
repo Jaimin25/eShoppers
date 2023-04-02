@@ -10,7 +10,7 @@
         android:label="eShoppers"
         android:supportsRtl="true"
         android:theme="@style/Theme.Cj_project_ecom"
-        android:name=".CjApplication"
+        android:name=".utils.CjApplication"
         tools:targetApi="31">
         <activity
             android:name=".AuthActivity"
@@ -24,7 +24,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".DebugActivity"
+            android:name=".utils.DebugActivity"
             android:screenOrientation="portrait"/>
         <activity
             android:name=".HomeActivity"

@@ -1,4 +1,4 @@
-package com.example.cj_project_ecom;
+package com.example.cj_project_ecom.utils;
 
 import android.app.Activity;
 import android.app.AlertDialog;
