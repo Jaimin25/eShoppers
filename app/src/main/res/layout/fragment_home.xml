@@ -3,17 +3,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".fragments.HomeFragment">
+    tools:context=".fragments.HomeFragment"
+    android:padding="2dp">
 
     <!-- TODO: Update blank fragment layout -->
     <GridView
         android:id="@+id/idGVProducts"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:horizontalSpacing="6dp"
+        android:horizontalSpacing="10dp"
         android:numColumns="2"
-        android:verticalSpacing="6dp"
+        android:verticalSpacing="10dp"
         android:scrollbars="none"
-        android:scrollbarThumbVertical="@null"/>
+        android:overScrollMode="never"
+        android:padding="2dp"/>
 
 </LinearLayout>

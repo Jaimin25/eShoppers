@@ -12,16 +12,19 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import com.example.cj_project_ecom.AuthActivity;
 import com.example.cj_project_ecom.HomeActivity;
 import com.example.cj_project_ecom.R;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class AccountFragment extends Fragment {
     LinearLayout guestView, profileView;
     Button auth_btn;
 
-    String auth_type;
+    TextView usernameTv, emailTv, uidTv;
+    String logged_in;
     public AccountFragment() {
         // Required empty public constructor
     }
@@ -42,21 +45,29 @@ public class AccountFragment extends Fragment {
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("AppData", Context.MODE_PRIVATE);
         SharedPreferences.Editor shEdit = sharedPreferences.edit();
+        BottomNavigationView bnv = ((HomeActivity)getContext()).findViewById(R.id.bottom_navigation);
 
-        auth_type = sharedPreferences.getString("auth_type", "");
-        Log.w("", auth_type);
+        logged_in = sharedPreferences.getString("logged_in", "");
+
         guestView = view.findViewById(R.id.guestView);
         profileView = view.findViewById(R.id.profileView);
         auth_btn = view.findViewById(R.id.auth_btn);
 
-        if(auth_type != null && !auth_type.equals("na")){
+        usernameTv = view.findViewById(R.id.usernameTv);
+        emailTv = view.findViewById(R.id.emailTv);
+        uidTv = view.findViewById(R.id.uidTv);
+
+        if(logged_in != null || !logged_in.equalsIgnoreCase("true")){
             guestView.setVisibility(View.GONE);
+            usernameTv.setText("Username: "+ sharedPreferences.getString("username", ""));
+            emailTv.setText("Email: "+ sharedPreferences.getString("email", ""));
+            uidTv.setText("Uid: " + sharedPreferences.getString("uid", ""));
         }
 
         auth_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                shEdit.remove("auth_type");
+                shEdit.remove("logged_in");
                 shEdit.apply();
                 Intent i = new Intent(view.getContext(), AuthActivity.class);
                 startActivity(i);

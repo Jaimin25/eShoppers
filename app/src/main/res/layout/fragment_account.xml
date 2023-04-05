@@ -33,9 +33,30 @@
             android:id="@+id/profileView"
             android:orientation="vertical">
             <TextView
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="Profile View"/>
+                android:text="Username: "
+                android:padding="8dp"
+                android:layout_margin="8dp"
+                android:textSize="16dp"
+                android:id="@+id/usernameTv"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Email: "
+                android:padding="8dp"
+                android:layout_margin="8dp"
+                android:textSize="16dp"
+                android:id="@+id/emailTv"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Uid: "
+                android:padding="8dp"
+                android:layout_margin="8dp"
+                android:textSize="16dp"
+                android:id="@+id/uidTv"/>
+
         </LinearLayout>
     </LinearLayout>
 </FrameLayout>

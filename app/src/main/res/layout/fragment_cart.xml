@@ -6,9 +6,29 @@
     tools:context=".fragments.CartFragment">
 
     <!-- TODO: Update blank fragment layout -->
-    <TextView
+    <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:text="cart" />
+        android:orientation="vertical"
+        android:gravity="center">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:id="@+id/emptyCtv"
+            android:gravity="center">
+    <ImageView
+        android:layout_width="68dp"
+        android:layout_height="68dp"
+        android:src="@drawable/shopping_cart"/>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Your cart is empty"
+        android:layout_margin="8dp"
+        android:textSize="16dp"
+        android:gravity="center"/>
+        </LinearLayout>
+    </LinearLayout>
 
 </FrameLayout>
