@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.AccountFragment">
     <LinearLayout
         android:layout_width="match_parent"
@@ -56,6 +57,18 @@
                 android:layout_margin="8dp"
                 android:textSize="16dp"
                 android:id="@+id/uidTv"/>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center">
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/logoutBtn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="Logout"
+                    android:textColor="#ffffff"
+                    app:backgroundTint="@android:color/holo_red_light"/>
+            </LinearLayout>
 
         </LinearLayout>
     </LinearLayout>

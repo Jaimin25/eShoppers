@@ -2,6 +2,7 @@ package com.example.cj_project_ecom;
 
 import static android.provider.SyncStateContract.Columns.DATA;
 
+import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -44,10 +45,8 @@ public class AuthActivity extends AppCompatActivity {
     TextInputEditText password_et, c_password_et;
     MaterialButton submit_btn;
     TextView reg_toggle, guest_login;
-    boolean is_login=true;
 
-    String logged_in;
-
+    boolean is_login = true;
     ProgressBar pb1;
 
     TextInputLayout username_lay, email_lay, pass_lay, c_pass_lay;
@@ -76,14 +75,7 @@ public class AuthActivity extends AppCompatActivity {
         pb1 = findViewById(R.id.progressBar);
         pb1.setVisibility(View.GONE);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("AppData", MODE_PRIVATE);
-
-
-        logged_in = sharedPreferences.getString("logged_in", "");
-
-
-        if(logged_in != null && logged_in.equalsIgnoreCase("true")){
-
+        if(Utils.isLoggedin(AuthActivity.this)){
             Intent i = new Intent(AuthActivity.this, HomeActivity.class);
             startActivity(i);
             finish();
@@ -133,10 +125,10 @@ public class AuthActivity extends AppCompatActivity {
         guest_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                SharedPreferences sharedPreferences = getSharedPreferences("AppData", MODE_PRIVATE);
+                SharedPreferences sharedPreferences = getSharedPreferences("AppData_user", MODE_PRIVATE);
                 SharedPreferences.Editor shEdit = sharedPreferences.edit();
 
-                shEdit.putString("logged_in", null);
+                shEdit.putString("logged_in", "guest");
                 shEdit.apply();
                 Intent i = new Intent(AuthActivity.this, HomeActivity.class);
                 startActivity(i);
@@ -212,15 +204,14 @@ public class AuthActivity extends AppCompatActivity {
 
                     //if no error in response
                     if (obj.getString("success").equals("1")) {
-                        Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-
+                        Utils.initToast(AuthActivity.this, obj.getString("message"));
                         //getting the user from the response
                         JSONObject userJson = obj.getJSONObject("user");
                         String sh_username = userJson.getString("username").toString();
                         String sh_email = userJson.getString("email").toString();
                         String sh_uid = userJson.get("uid").toString();
 
-                        SharedPreferences sharedPreferences = getSharedPreferences("AppData", MODE_PRIVATE);
+                        SharedPreferences sharedPreferences = getSharedPreferences("AppData_user", MODE_PRIVATE);
                         SharedPreferences.Editor shEdit = sharedPreferences.edit();
 
                         shEdit.putString("logged_in", "true");
@@ -233,7 +224,7 @@ public class AuthActivity extends AppCompatActivity {
                         startActivity(i);
                         finish();
                     } else {
-                        showServerMessage(obj.getString("message"));
+                        Utils.initAlertDialog(AuthActivity.this, "Server Response", obj.getString("message"));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -268,15 +259,14 @@ public class AuthActivity extends AppCompatActivity {
                     JSONObject obj = new JSONObject(s);
                     //if no error in response
                     if (obj.getString("success").equalsIgnoreCase("1")) {
-                        Toast.makeText(getApplicationContext(), obj.getString("message"), Toast.LENGTH_SHORT).show();
-
+                        Utils.initToast(AuthActivity.this, obj.getString("message"));
                         //getting the user from the response
                         JSONArray user = obj.getJSONArray("user");
                         String sh_username = user.get(2).toString();
                         String sh_email = user.get(4).toString();
                         String sh_uid = user.get(1).toString();
 
-                        SharedPreferences sharedPreferences = getSharedPreferences("AppData", MODE_PRIVATE);
+                        SharedPreferences sharedPreferences = getSharedPreferences("AppData_user", MODE_PRIVATE);
                         SharedPreferences.Editor shEdit = sharedPreferences.edit();
 
                         shEdit.putString("logged_in", "true");
@@ -289,7 +279,7 @@ public class AuthActivity extends AppCompatActivity {
                         startActivity(i);
                         finish();
                     } else {
-                        showServerMessage(obj.getString("message"));
+                        initAlertDialog(AuthActivity.this, "Server Response", obj.getString("message"));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -338,10 +328,11 @@ public class AuthActivity extends AppCompatActivity {
 
     }
 
-    private void showServerMessage(String msg){
-        AlertDialog.Builder adb = new AlertDialog.Builder(AuthActivity.this);
-        adb.setTitle("Server Response");
+    private void initAlertDialog(Context ctx, String title, String msg){
+        AlertDialog.Builder adb = new AlertDialog.Builder(ctx);
+        adb.setTitle(title);
         adb.setMessage(msg);
+
         AlertDialog adc = adb.create();
         adc.show();
     }
