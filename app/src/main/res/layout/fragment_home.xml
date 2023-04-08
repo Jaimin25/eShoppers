@@ -7,8 +7,8 @@
     android:padding="2dp">
 
     <!-- TODO: Update blank fragment layout -->
-    <GridView
-        android:id="@+id/idGVProducts"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/idRvProducts"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:horizontalSpacing="10dp"

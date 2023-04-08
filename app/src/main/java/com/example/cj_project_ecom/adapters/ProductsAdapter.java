@@ -1,42 +1,109 @@
 package com.example.cj_project_ecom.adapters;
-
 import android.content.Context;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.AdapterView;
 import android.widget.ImageView;
 import android.widget.TextView;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-
+import androidx.recyclerview.widget.RecyclerView;
+import com.bumptech.glide.Glide;
+import com.example.cj_project_ecom.HomeActivity;
 import com.example.cj_project_ecom.models.ProductModel;
 import com.example.cj_project_ecom.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.ArrayList;
 
-public class ProductsAdapter extends ArrayAdapter<ProductModel> {
+public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.RecyclerViewHolder> {
 
-    public ProductsAdapter(@NonNull Context context, ArrayList<ProductModel> ProductsModelArrayList) {
-        super(context, 0, ProductsModelArrayList);
+    private ArrayList<ProductModel> courseDataArrayList;
+    private Context mcontext;
+
+    private JSONObject fjsonstr;
+    private JSONArray fjsonarr;
+    private String favString;
+
+
+    private OnItemClickListener listener;
+
+    public interface OnItemClickListener {
+        void onItemClick(ProductModel item);
+    }
+
+    public ProductsAdapter(ArrayList<ProductModel> recyclerDataArrayList, Context mcontext, OnItemClickListener listener) {
+        this.courseDataArrayList = recyclerDataArrayList;
+        this.mcontext = mcontext;
+        this.listener = listener;
     }
 
     @NonNull
     @Override
-    public View getView(int position, @Nullable View convertView, @NonNull ViewGroup parent) {
+    public RecyclerViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+        // Inflate Layout
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.product_view, parent, false);
 
-        View listitemView = convertView;
-        if (listitemView == null) {
-            // Layout Inflater inflates each item to be displayed in GridView.
-            listitemView = LayoutInflater.from(getContext()).inflate(R.layout.product_view, parent, false);
+        return new RecyclerViewHolder(view);
+    }
+    @Override
+    public void onBindViewHolder(@NonNull RecyclerViewHolder holder, int position) {
+        // Set the data to textview and imageview.
+        ProductModel recyclerData = courseDataArrayList.get(position);
+        holder.tvProducts.setText(recyclerData.getProduct_name());
+        Glide.with(holder.itemView).load(recyclerData.getImgid()).into(holder.ivProducts);
+
+        favString = HomeActivity.favString;
+
+        try {
+            fjsonarr = new JSONArray(favString);
+
+            for(int i=0; i < fjsonarr.length(); i++){
+                fjsonstr = new JSONObject(fjsonarr.get(i).toString());
+                if(recyclerData.getPuid().equals(fjsonstr.getString("puid"))){
+                    Log.w("puid", String.valueOf(position));
+                    holder.favIv.setBackgroundResource(R.drawable.ic_fav_filled_foreground);
+                } else {
+                    holder.favIv.setBackgroundResource(R.drawable.ic_fav_border_foreground);
+                }
+            }
+        } catch (JSONException e) {
+            throw new RuntimeException(e);
+        }
+        holder.bind(courseDataArrayList.get(position), listener);
+    }
+
+    @Override
+    public int getItemCount() {
+        // this method returns the size of recyclerview
+        return courseDataArrayList.size();
+    }
+
+    // View Holder Class to handle Recycler View.
+    public class RecyclerViewHolder extends RecyclerView.ViewHolder {
+
+        private TextView tvProducts;
+        private ImageView favIv, ivProducts;
+
+        public RecyclerViewHolder(@NonNull View itemView) {
+            super(itemView);
+            favIv = itemView.findViewById(R.id.favIv);
+            ivProducts = itemView.findViewById(R.id.idIVProducts);
+            tvProducts = itemView.findViewById(R.id.idTVProducts);
+
+
         }
 
-        ProductModel ProductsModel = getItem(position);
-        TextView ProductsTV = listitemView.findViewById(R.id.idTVProducts);
-        ImageView ProductsIV = listitemView.findViewById(R.id.idIVProducts);
-
-        ProductsTV.setText(ProductsModel.getProduct_name());
-        ProductsIV.setImageResource(ProductsModel.getImgid());
-        return listitemView;
+        public void bind(final ProductModel item, final OnItemClickListener listener) {
+            itemView.setOnClickListener(new View.OnClickListener() {
+                @Override public void onClick(View v) {
+                    listener.onItemClick(item);
+                }
+            });
+        }
     }
 }

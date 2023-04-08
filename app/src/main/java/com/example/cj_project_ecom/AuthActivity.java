@@ -75,7 +75,7 @@ public class AuthActivity extends AppCompatActivity {
         pb1 = findViewById(R.id.progressBar);
         pb1.setVisibility(View.GONE);
 
-        if(Utils.isLoggedin(AuthActivity.this)){
+        if(Utils.isLoggedin(AuthActivity.this).equalsIgnoreCase("guest") || Utils.isLoggedin(AuthActivity.this).equalsIgnoreCase("user")){
             Intent i = new Intent(AuthActivity.this, HomeActivity.class);
             startActivity(i);
             finish();
@@ -224,7 +224,7 @@ public class AuthActivity extends AppCompatActivity {
                         startActivity(i);
                         finish();
                     } else {
-                        Utils.initAlertDialog(AuthActivity.this, "Server Response", obj.getString("message"));
+                        initAlertDialog(AuthActivity.this, "Server Response", obj.getString("message"));
                     }
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -242,7 +242,6 @@ public class AuthActivity extends AppCompatActivity {
         class UserLogin extends AsyncTask<Void, Void, String> {
 
             ProgressBar progressBar;
-
             @Override
             protected void onPreExecute() {
                 super.onPreExecute();

@@ -2,17 +2,34 @@ package com.example.cj_project_ecom.models;
 
 public class ProductModel {
 
+    private final String puid;
     // and imgid for storing image id.
     private String product_name;
     private double product_rating;
-    private int imgid;
+    private String imgid;
 
-    public ProductModel(String product_name, double product_rating, int imgid) {
+    private String pinfo, pprice, in_stock;
+
+
+    public ProductModel(String product_name, double product_rating, String puid, String imgid, String pinfo, String pprice, String in_stock) {
         this.product_name = product_name;
         this.product_rating = product_rating;
         this.imgid = imgid;
+        this.puid = puid;
+        this.pinfo = pinfo;
+        this.pprice = pprice;
+        this.in_stock = in_stock;
     }
 
+    public String getPinfo() {
+        return pinfo;
+    }
+    public String getPprice() {
+        return pprice;
+    }
+    public String getIn_stock() {
+        return in_stock;
+    }
     public String getProduct_name() {
         return product_name;
     }
@@ -25,11 +42,15 @@ public class ProductModel {
 
     public void setProduct_rating(double ratings) {this.product_rating = ratings; }
 
-    public int getImgid() {
+    public String getImgid() {
         return imgid;
     }
 
-    public void setImgid(int imgid) {
+    public String getPuid() {
+        return puid;
+    }
+    public void setImgid(String imgid) {
         this.imgid = imgid;
     }
+
 }

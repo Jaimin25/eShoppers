@@ -10,7 +10,6 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import android.text.Html;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -19,10 +18,8 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.cj_project_ecom.AuthActivity;
-import com.example.cj_project_ecom.HomeActivity;
 import com.example.cj_project_ecom.R;
 import com.example.cj_project_ecom.Utils;
-import com.google.android.material.bottomnavigation.BottomNavigationView;
 
 public class AccountFragment extends Fragment {
     private LinearLayout guestView, profileView;
@@ -62,13 +59,13 @@ public class AccountFragment extends Fragment {
 
         logoutBtn = view.findViewById(R.id.logoutBtn);
 
-        if (Utils.isLoggedin(view.getContext()) && sharedPreferences.getString("logged_in", "").equalsIgnoreCase("guest")){
+        if (Utils.isLoggedin(view.getContext()).equalsIgnoreCase("guest")){
             guestView.setVisibility(View.VISIBLE);
-        }else if(Utils.isLoggedin(view.getContext())){
+        }else if(Utils.isLoggedin(view.getContext()).equalsIgnoreCase("user")){
             guestView.setVisibility(View.GONE);
-            usernameTv.setText(Html.fromHtml("<b>Username: </b>"+ sharedPreferences.getString("username", "")));
-            emailTv.setText(Html.fromHtml("<b>Email: </b>"+ sharedPreferences.getString("email", "")));
-            uidTv.setText(Html.fromHtml("<b>Uid: </b>" + sharedPreferences.getString("uid", "")));
+            usernameTv.setText(Html.fromHtml("<b>Username: </b>"+ Utils.getUserName(getContext())));
+            emailTv.setText(Html.fromHtml("<b>Email: </b>"+ Utils.getUserEmail(getContext())));
+            uidTv.setText(Html.fromHtml("<b>Uid: </b>" + Utils.getUserID(getContext())));
         }
 
         auth_btn.setOnClickListener(new View.OnClickListener() {
