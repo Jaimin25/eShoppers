@@ -3,6 +3,7 @@ package com.example.cj_project_ecom;
 import android.annotation.SuppressLint;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.annotation.NonNull;
@@ -20,6 +21,9 @@ import com.google.android.material.bottomnavigation.BottomNavigationView;
 import android.view.View;
 import android.widget.LinearLayout;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.io.IOException;
 import java.util.HashMap;
 
@@ -29,6 +33,7 @@ public class HomeActivity extends AppCompatActivity {
     public static String jsonString, favString;
     String url = "https://sapotaceous-shame.000webhostapp.com/get_products.php";
     String getFavUrl = "https://sapotaceous-shame.000webhostapp.com/get_fav.php";
+    String getCartUrl = "https://sapotaceous-shame.000webhostapp.com/get_cart.php";
     private LinearLayout progress;
 
 
@@ -54,9 +59,6 @@ public class HomeActivity extends AppCompatActivity {
                 try {
                     jsonString = Utils.getJsonFromServer(url);
 
-
-                    //creating request parameters
-
                 } catch (IOException e) {
                     // TODO Auto-generated catch block
                     e.printStackTrace();
@@ -73,7 +75,16 @@ public class HomeActivity extends AppCompatActivity {
             @Override
             protected void onPostExecute(String result) {
                 super.onPostExecute(result);
-                favString = result;
+
+                try {
+                    JSONObject jo = new JSONObject(result);
+                    favString = jo.getString("favs");
+
+                    Utils.setCartData(jo.getString("cart"));
+                } catch (JSONException e) {
+                    throw new RuntimeException(e);
+                }
+
                 progress.setVisibility(View.GONE);
                 openFragment(HomeFragment.newInstance("", ""));
 

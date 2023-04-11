@@ -59,13 +59,13 @@ public class AccountFragment extends Fragment {
 
         logoutBtn = view.findViewById(R.id.logoutBtn);
 
-        if (Utils.isLoggedin(view.getContext()).equalsIgnoreCase("guest")){
-            guestView.setVisibility(View.VISIBLE);
-        }else if(Utils.isLoggedin(view.getContext()).equalsIgnoreCase("user")){
+        if(Utils.isLoggedin(view.getContext()).equalsIgnoreCase("user")){
             guestView.setVisibility(View.GONE);
-            usernameTv.setText(Html.fromHtml("<b>Username: </b>"+ Utils.getUserName(getContext())));
-            emailTv.setText(Html.fromHtml("<b>Email: </b>"+ Utils.getUserEmail(getContext())));
-            uidTv.setText(Html.fromHtml("<b>Uid: </b>" + Utils.getUserID(getContext())));
+            usernameTv.setText(Html.fromHtml("<b>Username: </b>"+ Utils.getUserName(getContext()), 0));
+            emailTv.setText(Html.fromHtml("<b>Email: </b>"+ Utils.getUserEmail(getContext()), 0));
+            uidTv.setText(Html.fromHtml("<b>Uid: </b>" + Utils.getUserID(getContext()), 0));
+        } else {
+            guestView.setVisibility(View.VISIBLE);
         }
 
         auth_btn.setOnClickListener(new View.OnClickListener() {

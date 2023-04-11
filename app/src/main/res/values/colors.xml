@@ -7,4 +7,6 @@
     <color name="colorAccent">#039be5</color>
     <color name="colorControlHighlight">#ffffff</color>
     <color name="colorNormal">#57BEEE</color>
+    <color name="dark_overlay">#B3000000</color>
+
 </resources>

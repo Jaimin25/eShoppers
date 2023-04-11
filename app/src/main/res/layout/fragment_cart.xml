@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     tools:context=".fragments.CartFragment">
 
     <!-- TODO: Update blank fragment layout -->
@@ -29,6 +30,59 @@
         android:textSize="16dp"
         android:gravity="center"/>
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:id="@+id/cartV"
+            android:orientation="vertical">
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/idRvCart"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:horizontalSpacing="10dp"
+            android:layout_weight="1"
+            android:numColumns="2"
+            android:verticalSpacing="10dp"
+            android:scrollbars="none"
+            android:overScrollMode="never"
+            android:padding="2dp"/>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:gravity="center"
+            android:elevation="50dp"
+            android:layout_margin="8dp"
+            android:padding="8dp">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:layout_margin="4dp"
+            android:layout_marginLeft="12dp"
+            android:layout_marginRight="12dp"
+            android:background="@android:color/darker_gray" />
+        <TextView
+            android:id="@+id/sumTotalTv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:padding="8dp"
+            android:text="Total: "
+            android:textStyle="bold"
+            android:gravity="right"
+            android:textSize="16dp"/>
+        <Button
+            android:id="@+id/removeBtn"
+            android:layout_width="180dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="8dp"
+            android:text="Checkout 	"
+            android:textSize="12dp"
+            android:padding="8dp"
+            app:backgroundTint="#50C878
+"/>
+        </LinearLayout>
+        </LinearLayout>
+
     </LinearLayout>
 
 </FrameLayout>

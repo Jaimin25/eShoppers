@@ -36,12 +36,14 @@ import java.util.ArrayList;
 
 public class HomeFragment extends Fragment {
 
-    RecyclerView coursesGV;
     private AsyncTask<Void, Void, Void> mTask;
 
     String jsonString, favString;
     private JSONArray pjsonarr, fjsonarr;
     private JSONObject pjsonstr, fjsonstr;
+    private ProductsAdapter adapter;
+    private RecyclerView productsGv;
+    public static ArrayList<ProductModel> ProductArrayList;
 
     public HomeFragment() {
         // Required empty public constructor
@@ -50,20 +52,31 @@ public class HomeFragment extends Fragment {
         HomeFragment fragment = new HomeFragment();
         return fragment;
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
     }
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (adapter != null){
+            adapter.notifyDataSetChanged();
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
 
-        coursesGV = view.findViewById(R.id.idRvProducts);
+        productsGv = view.findViewById(R.id.idRvProducts);
 
-        ArrayList<ProductModel> ProductArrayList = new ArrayList<ProductModel>();
+         ProductArrayList = new ArrayList<ProductModel>();
+
         jsonString = HomeActivity.jsonString;
 
         try {
@@ -72,9 +85,8 @@ public class HomeFragment extends Fragment {
             for(int i=0; i < pjsonarr.length(); i++){
                 pjsonstr = new JSONObject(pjsonarr.get(i).toString());
                 ProductArrayList.add(new ProductModel(pjsonstr.getString("pname"), 4.3, pjsonstr.getString("puid"), "https://sapotaceous-shame.000webhostapp.com/product_img_resources/" + pjsonstr.getString("pimg"), pjsonstr.getString("pinfo"), pjsonstr.getString("pprice"), pjsonstr.getString("stock")));
-
             }
-            ProductsAdapter adapter = new ProductsAdapter(ProductArrayList, getActivity(), new ProductsAdapter.OnItemClickListener() {
+            adapter = new ProductsAdapter(ProductArrayList, getActivity(), new ProductsAdapter.OnItemClickListener() {
                 @Override
                 public void onItemClick(ProductModel item) {
                     Intent intnt = new Intent(getActivity(), ProductDetails.class);
@@ -89,13 +101,13 @@ public class HomeFragment extends Fragment {
             });
 
             GridLayoutManager layoutManager=new GridLayoutManager(getActivity(),2);
-            coursesGV.setLayoutManager(layoutManager);
-            coursesGV.setAdapter(adapter);
+
+            productsGv.setLayoutManager(layoutManager);
+            productsGv.setAdapter(adapter);
 
         } catch (JSONException e) {
             throw new RuntimeException(e);
         }
-
 
         return view;
 

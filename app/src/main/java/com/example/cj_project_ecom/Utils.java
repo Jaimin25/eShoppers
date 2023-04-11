@@ -15,6 +15,14 @@ import java.net.URLConnection;
 public class Utils {
     private static String logged_in;
 
+    private static String cart_data;
+    public static String getCartData() {
+        return cart_data;
+    }
+    public static void setCartData(String data) {
+        cart_data = data;
+    }
+
     public static void initToast(Context ctx, String msg){
         Toast.makeText(ctx, msg, Toast.LENGTH_LONG).show();
     }
@@ -52,9 +60,8 @@ public class Utils {
             return "user";
         } else if (logged_in.equalsIgnoreCase("guest")) {
             return "guest";
-        } else {
-            return "nl";
         }
+        return "nl";
     }
 
     public static String getJsonFromServer(String url) throws IOException {

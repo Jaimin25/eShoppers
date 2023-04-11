@@ -11,6 +11,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 import com.bumptech.glide.Glide;
 import com.example.cj_project_ecom.HomeActivity;
+import com.example.cj_project_ecom.Utils;
 import com.example.cj_project_ecom.models.ProductModel;
 import com.example.cj_project_ecom.R;
 
@@ -28,7 +29,6 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Recycl
     private JSONObject fjsonstr;
     private JSONArray fjsonarr;
     private String favString;
-
 
     private OnItemClickListener listener;
 
@@ -55,24 +55,26 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Recycl
         // Set the data to textview and imageview.
         ProductModel recyclerData = courseDataArrayList.get(position);
         holder.tvProducts.setText(recyclerData.getProduct_name());
+        holder.favIv.setBackgroundResource(R.drawable.ic_fav_border_foreground);
+
+        holder.priceTv.setText("₹"+String.format("%,d", Integer.parseInt(recyclerData.getPprice().toString())));
+
         Glide.with(holder.itemView).load(recyclerData.getImgid()).into(holder.ivProducts);
 
-        favString = HomeActivity.favString;
+        if(Utils.isLoggedin(mcontext.getApplicationContext()).equalsIgnoreCase("user")) {
+            favString = HomeActivity.favString;
+            try {
+                fjsonarr = new JSONArray(favString);
 
-        try {
-            fjsonarr = new JSONArray(favString);
-
-            for(int i=0; i < fjsonarr.length(); i++){
-                fjsonstr = new JSONObject(fjsonarr.get(i).toString());
-                if(recyclerData.getPuid().equals(fjsonstr.getString("puid"))){
-                    Log.w("puid", String.valueOf(position));
-                    holder.favIv.setBackgroundResource(R.drawable.ic_fav_filled_foreground);
-                } else {
-                    holder.favIv.setBackgroundResource(R.drawable.ic_fav_border_foreground);
+                for (int i = 0; i < fjsonarr.length(); i++) {
+                    fjsonstr = new JSONObject(fjsonarr.get(i).toString());
+                    if (recyclerData.getPuid().equals(fjsonstr.getString("puid"))) {
+                        holder.favIv.setBackgroundResource(R.drawable.ic_fav_filled_foreground);
+                    }
                 }
+            } catch (JSONException e) {
+                throw new RuntimeException(e);
             }
-        } catch (JSONException e) {
-            throw new RuntimeException(e);
         }
         holder.bind(courseDataArrayList.get(position), listener);
     }
@@ -86,7 +88,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Recycl
     // View Holder Class to handle Recycler View.
     public class RecyclerViewHolder extends RecyclerView.ViewHolder {
 
-        private TextView tvProducts;
+        private TextView tvProducts, priceTv;
         private ImageView favIv, ivProducts;
 
         public RecyclerViewHolder(@NonNull View itemView) {
@@ -94,7 +96,7 @@ public class ProductsAdapter extends RecyclerView.Adapter<ProductsAdapter.Recycl
             favIv = itemView.findViewById(R.id.favIv);
             ivProducts = itemView.findViewById(R.id.idIVProducts);
             tvProducts = itemView.findViewById(R.id.idTVProducts);
-
+            priceTv = itemView.findViewById(R.id.idTVPrice);
 
         }
 

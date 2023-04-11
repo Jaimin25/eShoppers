@@ -3,5 +3,6 @@
     <style name="AppTheme.Button" parent="Widget.AppCompat.Button.Colored">
     <item name="colorButtonNormal">@android:color/holo_red_light</item>
     <item name="android:textColor">#ffffff</item>
-</style>
+     </style>
+
 </resources>
